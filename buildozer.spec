@@ -1,35 +1,15 @@
 [app]
+title = MyKivyApp
+package.name = mykivyapp
+package.domain = org.mykivyapp
 
-# (str) Title of your application
-title = SampleApp
-
-# (str) Package name
-package.name = nfsApk
-
-# (str) Package domain (needed for android/ios packaging)
-package.domain = org.novfensec
-
-# (str) Source code where the main.py live
 source.dir = .
-
-# (list) Source files to include (let empty to include all the files)
 source.include_exts = py,png,jpg,kv,atlas
 
-# (list) List of inclusions using pattern matching
-source.include_patterns = images/*.png
+version = 1.0
 
-# (list) Source files to exclude (let empty to not exclude anything)
-#source.exclude_exts = spec
-
-# (list) List of directory to exclude (let empty to not exclude anything)
-#source.exclude_dirs = tests, bin, venv
-
-# (list) List of exclusions using pattern matching
-# Do not prefix with './'
-#source.exclude_patterns = license,images/*/*.jpg
-
-# (str) Application versioning (method 1)
-version = 0.1
+# КЛЮЧЕВОЙ МОМЕНТ: используем master-версии для обхода багов Android 14/15
+requirements = python3,kivy==master,https://github.com/kivymd/KivyMD/archive/master.zip,pillow
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -52,28 +32,6 @@ icon.filename = %(source.dir)s/images/favicon.png
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse
 orientation = portrait
-
-# (list) List of service to declare
-#services = NAME:ENTRYPOINT_TO_PY,NAME2:ENTRYPOINT2_TO_PY
-
-#
-# OSX Specific
-#
-
-#
-# author = © Copyright Info
-
-# change the major version of python used by the app
-osx.python_version = 3
-
-# Kivy version to use
-osx.kivy_version = 2.3.1
-
-#
-# Android specific
-#
-
-# (bool) Indicate if the application should be fullscreen or not
 fullscreen = 0
 
 # (string) Presplash background color (for android toolchain)
@@ -228,61 +186,7 @@ android.accept_sdk_license = True
 # (list) Java classes to add as activities to the manifest.
 #android.add_activities = com.example.ExampleActivity
 
-# (str) OUYA Console category. Should be one of GAME or APP
-# If you leave this blank, OUYA support will not be enabled
-#android.ouya.category = GAME
-
-# (str) Filename of OUYA Console icon. It must be a 732x412 png image.
-#android.ouya.icon.filename = %(source.dir)s/data/ouya_icon.png
-
-# (str) XML file to include as an intent filters in <activity> tag
-#android.manifest.intent_filters =
-
-# (list) Copy these files to src/main/res/xml/ (used for example with intent-filters)
-#android.res_xml = PATH_TO_FILE,
-
-# (str) launchMode to set for the main activity
-#android.manifest.launch_mode = standard
-
-# (str) screenOrientation to set for the main activity.
-# Valid values can be found at https://developer.android.com/guide/topics/manifest/activity-element
-#android.manifest.orientation = fullSensor
-
-# (list) Android additional libraries to copy into libs/armeabi
-#android.add_libs_armeabi = libs/android/*.so
-#android.add_libs_armeabi_v7a = libs/android-v7/*.so
-#android.add_libs_arm64_v8a = libs/android-v8/*.so
-#android.add_libs_x86 = libs/android-x86/*.so
-#android.add_libs_mips = libs/android-mips/*.so
-
-# (bool) Indicate whether the screen should stay on
-# Don't forget to add the WAKE_LOCK permission if you set this to True
-#android.wakelock = False
-
-# (list) Android application meta-data to set (key=value format)
-#android.meta_data =
-
-# (list) Android library project to add (will be added in the
-# project.properties automatically.)
-#android.library_references =
-
-# (list) Android shared libraries which will be added to AndroidManifest.xml using <uses-library> tag
-#android.uses_library =
-
-# (str) Android logcat filters to use
-#android.logcat_filters = *:S python:D
-
-# (bool) Android logcat only display log for activity's pid
-#android.logcat_pid_only = False
-
-# (str) Android additional adb arguments
-#android.adb_args = -H host.docker.internal
-
-# (bool) Copy library instead of making a libpymodules.so
-#android.copy_libs = 1
-
-# (list) The Android archs to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
-# In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
+# Включаем сборку под 64-битную архитектуру (обязательно для Honor и новых устройств)
 android.archs = arm64-v8a
 
 # (int) overrides automatic versionCode computation (used in build.gradle)
@@ -400,53 +304,5 @@ ios.codesign.allowed = false
 
 
 [buildozer]
-
-# (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
 log_level = 2
-
-# (int) Display warning if buildozer is run as root (0 = False, 1 = True)
 warn_on_root = 1
-
-# (str) Path to build artifact storage, absolute or relative to spec file
-# build_dir = ./.buildozer
-
-# (str) Path to build output (i.e. .apk, .aab, .ipa) storage
-# bin_dir = ./bin
-
-#    -----------------------------------------------------------------------------
-#    List as sections
-#
-#    You can define all the "list" as [section:key].
-#    Each line will be considered as a option to the list.
-#    Let's take [app] / source.exclude_patterns.
-#    Instead of doing:
-#
-#[app]
-#source.exclude_patterns = license,data/audio/*.wav,data/images/original/*
-#
-#    This can be translated into:
-#
-#[app:source.exclude_patterns]
-#license
-#data/audio/*.wav
-#data/images/original/*
-#
-
-
-#    -----------------------------------------------------------------------------
-#    Profiles
-#
-#    You can extend section / key with a profile
-#    For example, you want to deploy a demo version of your application without
-#    HD content. You could first change the title to add "(demo)" in the name
-#    and extend the excluded directories to remove the HD content.
-#
-#[app@demo]
-#title = My Application (demo)
-#
-#[app:source.exclude_patterns@demo]
-#images/hd/*
-#
-#    Then, invoke the command line with the "demo" profile:
-#
-#buildozer --profile demo android debug
